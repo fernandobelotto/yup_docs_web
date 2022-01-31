@@ -2,46 +2,69 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Getting Started
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Yup is a schema builder for runtime value parsing and validation. Define a schema, transform a value to match, assert the shape of an existing value, or both. Yup schema are extremely expressive and allow modeling complex, interdependent validations, or value transformation.
 
-## Getting Started
+**Killer Features**:
 
-Get started by **creating a new site**.
+- Concise yet expressive schema interface, equipped to model simple to complex data models
+- Powerful TypeScript support. Infer static types from schema, or ensure schema correctly implement a type
+- Built-in async validation support. Model server-side and client-side validation equally well
+- Extensible: add your own type-safe methods and schema
+- Rich error details, make debugging a breeze
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
 
-### What you'll need
+Schema are comprised of parsing actions (transforms) as well as assertions (tests) about the input value.
+Validate an input value to parse it and run the configured set of assertions. Chain together methods to build a schema.
 
-- [Node.js](https://nodejs.org/en/download/) version 14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+```ts
+import { object, string, number, date, InferType } from 'yup';
 
-## Generate a new site
+let userSchema = object({
+  name: string().required(),
+  age: number().required().positive().integer(),
+  email: string().email(),
+  website: string().url().nullable(),
+  createdOn: date().default(() => new Date()),
+});
 
-Generate a new Docusaurus site using the **classic template**.
+// parse and assert validity
+const user = await userSchema.validate(await fetchUser());
 
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
+type User = InferType<typeof userSchema>;
+/* {
+  name: string;
+  age: number;
+  email?: string | undefined
+  website?: string | null | undefined
+  createdOn: Date
+}*/
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+Use a schema to coerce or "cast" an input value into the correct type, and optionally
+transform that value into more concrete and specific values, without making further assertions.
 
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
+```ts
+// Attempts to coarce values to the correct type
+const parsedUser = userSchema.cast({
+  name: 'jimmy',
+  age: '24',
+  createdOn: '2014-09-23T19:25:25Z',
+});
+// ✅  { name: 'jimmy', age: 24, createdOn: Date }
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+Know that your input value is already parsed? You can "strictly" validate an input, and avoid the overhead
+of running parsing logic.
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+```ts
+// ❌  ValidationError "age is not a number"
+const parsedUser = await userSchema.validate(
+  {
+    name: 'jimmy',
+    age: '24',
+  },
+  { strict: true },
+);
+```

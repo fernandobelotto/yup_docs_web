@@ -6,16 +6,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'Yup',
+  tagline: 'Schema builder for runtime value parsing and validation',
+  url: 'https://yup_docs_web.vercel.app',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
-
+  organizationName: 'jquense',
+  projectName: 'yup',
   presets: [
     [
       'classic',
@@ -43,21 +42,44 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'My Site',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
-        },
+        title: 'Yup',
+        // logo: {
+        //   alt: 'Yup logo',
+        //   src: 'img/logo.svg',
+        // },
         items: [
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Getting Started',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            type: 'doc',
+            docId: 'schema',
+            position: 'left',
+            label: 'Schema basics',
+          },
+          {
+            type: 'doc',
+            docId: 'typescript',
+            position: 'left',
+            label: 'TypeScript',
+          },
+          {
+            type: 'doc',
+            docId: 'error',
+            position: 'left',
+            label: 'Error message',
+          },
+          {
+            type: 'doc',
+            docId: 'Api/yup',
+            position: 'left',
+            label: 'API',
+          },
+          {
+            href: 'https://github.com/jquense/yup',
             label: 'GitHub',
             position: 'right',
           },
@@ -70,43 +92,43 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Getting Started',
                 to: '/docs/intro',
               },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
+
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                to: '/docs/schema',
+                label: 'Schema basics',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                to: 'docs/typescript',
+                label: 'TypeScript',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                to: 'docs/error',
+                label: 'Error message',
               },
             ],
           },
           {
-            title: 'More',
+            title: 'Github',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'Issues',
+                href: 'https://github.com/jquense/yup/issues',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'Pull Requests',
+                href: 'https://github.com/jquense/yup/pulls',
+              },
+              {
+                label: 'Repository',
+                href: 'https://github.com/jquense/yup',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Yup. Website made by Fernando Belotto`,
       },
       prism: {
         theme: lightCodeTheme,
